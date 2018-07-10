@@ -12,16 +12,16 @@ const tagsButtons = document.getElementsByClassName("tag");
 const inputSearch = document.getElementById('inputSearch');
 const sortingTags = [];
 const sortBy = 'sortBy';
+
 window.onload = () => {
     fetch(dataUrl)
         .then((resp) => resp.json())
         .then(function (data) {
             cards = data.data;
             filteredCards = cards;
-            showCards(filteredCards);
-            numberOfCards+=10;
             showTags();
-            let sortingFromLocal = localStorage.getItem(sorting);
+            let sortingFromLocal = localStorage.getItem(sortBy);
+            console.log(sortingFromLocal);
             if(sortingFromLocal===null){
                 sortDescending(filteredCards);
             }
@@ -29,7 +29,7 @@ window.onload = () => {
                 if(sortingFromLocal === "ascending"){
                     sortAscending(filteredCards);
                 }
-                else {
+                if(sortingFromLocal === "descending"){
                     sortDescending(filteredCards);
                 }
             }
