@@ -1,10 +1,12 @@
 const dataUrl = "https://api.myjson.com/bins/152f9j";
 let cards = [];
 let numberOfCards = 0;
-let filteredCards;
+let filteredCards = [];
 const cardsHtml = document.getElementById("cards");
 const tagsHtml = document.getElementById("tags");
 const getBackButton = document.getElementById("getBackButton");
+const ascendingButton = document.getElementById("ascending");
+const descendingButton = document.getElementById("descending");
 const deleteCardButtons = document.getElementsByClassName("deleteButton");
 const inputSearch = document.getElementById('inputSearch');
 window.onload = () => {
@@ -26,7 +28,6 @@ window.onload = () => {
 function showCards(cardsToShow){
 
     for(let i = numberOfCards; i < numberOfCards+10 && i < cardsToShow.length; ++i){
-        console.log(i);
         let card =
             "<div class='card' id="+i+">" +
                 "<div class='container'>" +
@@ -80,13 +81,13 @@ getBackButton.addEventListener('click', scrollTop);
 function search() {
     cardsHtml.innerHTML = "";
     let filter = inputSearch.value.toUpperCase();
-    let searchCards = filteredCards.slice();
-    for (i = 0; i < filteredCards.length; i++) {
-        title = filteredCards[i].title;
+    let searchCards = cards.slice();
+    for (i = 0; i < cards.length; i++) {
+        title = cards[i].title;
         if (title.toUpperCase().indexOf(filter) > -1) {
 
         } else {
-            searchCards.splice(searchCards.indexOf(filteredCards[i]),1);
+            searchCards.splice(searchCards.indexOf(cards[i]),1);
         }
 
     }
@@ -116,7 +117,29 @@ function deleteCard() {
     numberOfCards = 0;
     showCards(filteredCards);
 }
-
-
 inputSearch.addEventListener("input", search);
-console.log(inputSearch.value);
+
+function sortAscending(filteredCards) {
+    //localStorage.setItem(sorting, 'ascending');
+    cardsHtml.innerHTML = "";
+    filteredCards = filteredCards.sort((card1, card2) => {
+        const date1 = new Date(card1.createdAt), date2 = new Date(card2.createdAt);
+        return date2 < date1 ? 1 : -1;
+    });
+    showCards(filteredCards);
+}
+
+function sortDescending(filteredCards) {
+    //localStorage.setItem(sorting, 'ascending');
+    cardsHtml.innerHTML = "";
+    filteredCards = filteredCards.sort((card1, card2) => {
+        const date1 = new Date(card1.createdAt),
+            date2 = new Date(card2.createdAt);
+        console.log(date2 < date1);
+        return date2 < date1 ? -1 : 1;
+    });
+    showCards(filteredCards);
+}
+
+ascendingButton.addEventListener('click', () => sortAscending(filteredCards));
+descendingButton.addEventListener('click', () => sortDescending(filteredCards));
