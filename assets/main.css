@@ -22,8 +22,6 @@ aside,
 footer {
     background: #eaeaea;
     display: flex;
-    align-items: center;
-    justify-content: center;
 }
 #cards {
     display: grid;
@@ -54,6 +52,10 @@ img{
 
 }
 
+.container {
+    padding: 2px 16px;
+}
+
 .container .desc {
     color: rgba(12, 12, 12, 0.95);
     display: -webkit-box;
@@ -67,10 +69,11 @@ img{
     width: 100%;
     padding: 3px 2px;
 }
-/* Add some padding inside the card container */
-.container {
-    padding: 2px 16px;
+
+.container .tags{
+    display: flex;
 }
+
 .deleteButton{
     position: absolute;
     top:0px;
@@ -93,6 +96,7 @@ aside{
 }
 .search{
     padding-left: 10px;
+    padding-top: 10px;
 }
 form.search input[type=text] {
     padding: 10px;
@@ -131,12 +135,15 @@ form.search::after {
     text-align: center;
     cursor: pointer;
     border: none;
-    color: white;
+    color: #5c5c5c;
     padding: 9px 16px;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    font-family: sans-serif;
+    letter-spacing: 0.1px;
 }
 .filterButton:hover{
     background-color: #5c5c5c;
+    color: #ffffff;
 }

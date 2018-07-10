@@ -1,5 +1,6 @@
 const dataUrl = "https://api.myjson.com/bins/152f9j";
 let cards = [];
+let numberOfCards = 0;
 const cardsHtml = document.getElementById("cards");
 const tagsHtml = document.getElementById("tags");
 window.onload = () => {
@@ -15,9 +16,9 @@ window.onload = () => {
         });
 };
 
-;function showCards(){
-    console.log(cards.length);
-    for(let i = 0; i < cards.length; i++){
+function showCards(){
+
+    for(let i = numberOfCards; i < numberOfCards+10; i++){
         let cardTags = "";
         for(let j = 0; j < cards[i].tags.length; j++){
             cardTags+="<div class='tag'>"+cards[i].tags[j]+"</div>"
@@ -35,6 +36,16 @@ window.onload = () => {
         cardsHtml.innerHTML += card;
     }
 }
+console.log(window.pageYOffset);
+window.onscroll = function () {
+    var pageHeight=document.documentElement.offsetHeight,
+        windowHeight=window.innerHeight,
+        scrollPosition=window.scrollY || window.pageYOffset || document.body.scrollTop + (document.documentElement && document.documentElement.scrollTop || 0);
+    if (pageHeight <= windowHeight+scrollPosition && numberOfCards < 40) {
+        numberOfCards+=10;
+        showCards();
+    }
+};
 
 function showTags() {
     let tags = new Set();
