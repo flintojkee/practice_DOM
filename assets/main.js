@@ -132,6 +132,7 @@ function deleteCard() {
         } 
 
     }
+    cards = cardsLeft;
     filteredCards = cardsLeft;
     numberOfCards = 0;
     showCards(filteredCards);
@@ -150,7 +151,6 @@ function sortAscending(filteredCards) {
 
 function sortDescending(filteredCards) {
     cardsHtml.innerHTML = "";
-    console.log(filteredCards.length);
     filteredCards = filteredCards.sort((card1, card2) => {
         const date1 = new Date(card1.createdAt),
             date2 = new Date(card2.createdAt);
@@ -166,23 +166,18 @@ descendingButton.addEventListener('click', () => sortDescending(filteredCards));
 function sortByTags() {
     let tagHtml = event.target;
     tagHtml.classList.contains('active')? tagHtml.classList.remove('active'):tagHtml.classList.add('active');
-   // let tag = {"tag":tagHtml.innerHTML};
     sortingTags.push(tagHtml.innerHTML);
     cardsHtml.innerHTML = "";
-    let sortedByTags = filteredCards.slice();
-
-    for (i = 0; i < filteredCards.length; i++) {
-        tags = filteredCards[i].tags;
-        console.log(tags);
-        console.log(sortingTags);
-        console.log(tags.indexOf(sortingTags))
-        if (tags.indexOf(sortingTags) > -1) {
-
-        } else {
-            sortedByTags.splice(sortedByTags.indexOf(filteredCards[i]),1);
-        }
-
-    }
-    filteredCards = sortedByTags;
+    filteredCards = filteredCards.sort(comp)
+    numberOfCards = 0;
     showCards(filteredCards);
+}
+
+function comp(card1, card2){
+    let c1 = 0, c2 = 0;
+    for(let i = 0; i < sortingTags.length ; ++i){
+        c1 += (card1.tags.includes(sortingTags[i]) ? 1 : 0);
+        c2 += (card2.tags.includes(sortingTags[i]) ? 1 : 0);
+    }
+    return c2 - c1;
 }
