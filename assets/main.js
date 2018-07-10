@@ -3,6 +3,8 @@ let cards = [];
 let numberOfCards = 0;
 const cardsHtml = document.getElementById("cards");
 const tagsHtml = document.getElementById("tags");
+const getBackButton = document.getElementById("getBackButton");
+const inputSearch = document.getElementById('inputSearch');
 window.onload = () => {
     fetch(dataUrl)
         .then((resp) => resp.json())
@@ -24,7 +26,7 @@ function showCards(){
             cardTags+="<div class='tag'>"+cards[i].tags[j]+"</div>"
         }
         let card =
-            "<div class='card'>" +
+            "<div class='card' id="+i+">" +
                 "<div class='container'>" +
                     "<button class=\"deleteButton\"><i class=\"fa fa-close\"></i></button>"+
                     "<img src="+cards[i].image +" alt=\"Avatar\">"+
@@ -41,7 +43,7 @@ window.onscroll = function () {
     var pageHeight=document.documentElement.offsetHeight,
         windowHeight=window.innerHeight,
         scrollPosition=window.scrollY || window.pageYOffset || document.body.scrollTop + (document.documentElement && document.documentElement.scrollTop || 0);
-    if (pageHeight <= windowHeight+scrollPosition && numberOfCards < 40) {
+    if (pageHeight <= windowHeight+scrollPosition && numberOfCards < 50) {
         numberOfCards+=10;
         showCards();
     }
@@ -59,3 +61,32 @@ function showTags() {
         tagsHtml.innerHTML += tag;
     }
 }
+
+function scrollTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+    cardsHtml.innerHTML = "";
+    showCards();
+}
+
+getBackButton.addEventListener('click', scrollTop);
+
+function search() {
+    let filter;
+    filter = inputSearch.value.toUpperCase();
+    // Loop through all list items, and hide those who don't match the search query
+
+    for (i = 0; i < numberOfCards+10; i++) {
+       // console.log(cards[i]);
+        title = cards[i].title;
+        c = document.getElementById(i);
+        if (title.toUpperCase().indexOf(filter) > -1) {
+            c.style.display = "";
+        } else {
+            c.style.display = "none";
+        }
+    }
+}
+
+inputSearch.addEventListener("input", search);
+console.log(inputSearch.value);

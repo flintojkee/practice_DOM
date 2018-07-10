@@ -7,17 +7,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+
 <header>
     Header
 </header>
 <aside>
-    <form class="search">
-        <input type="text" placeholder="Search.." name="search">
-        <button type="submit"><i class="fa fa-search"></i></button>
-    </form>
+    <div class="search">
+        <input id="inputSearch" type="text" placeholder="Search.." name="search">
+        <button ><i class="fa fa-search" ></i></button>
+    </div>
     <button id="ascending" class="filterButton">In ascending order</button>
     <button id="descending" class="filterButton">In descending order</button>
     <div id="tags"></div>
+    <button type="submit" class="getBackButton" id="getBackButton"><i class="fa fa-arrow-up"></i></button>
 </aside>
 <div id="cards">
     <!--<div class="card">

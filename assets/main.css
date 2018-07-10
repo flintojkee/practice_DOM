@@ -91,14 +91,16 @@ img{
 }
 
 aside{
-    display: grid;
-    grid-template-rows: 75px 35px 35px auto;
+    display: flex;
+    flex-direction: column;
+
 }
 .search{
     padding-left: 10px;
     padding-top: 10px;
+    padding-bottom: 10px;
 }
-form.search input[type=text] {
+div.search input[type=text] {
     padding: 10px;
     font-size: 17px;
     border: 1px solid grey;
@@ -108,7 +110,7 @@ form.search input[type=text] {
 }
 
 /* Style the submit button */
-form.search button {
+div.search button {
     float: left;
     width: 20%;
     padding: 10px;
@@ -120,12 +122,12 @@ form.search button {
     cursor: pointer;
 }
 
-form.search button:hover {
+div.search button:hover {
     background: #5c5c5c;
 }
 
 /* Clear floats */
-form.search::after {
+div.search::after {
     content: "";
     clear: both;
     display: table;
@@ -146,4 +148,16 @@ form.search::after {
 .filterButton:hover{
     background-color: #5c5c5c;
     color: #ffffff;
+}
+
+.getBackButton{
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    color: #5c5c5c;
+    padding: 9px 25px;
+    text-decoration: none;
+    display: inline-block;
+    position: sticky;
+    top: 0px;
 }
