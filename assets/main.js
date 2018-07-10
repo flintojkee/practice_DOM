@@ -8,7 +8,10 @@ const getBackButton = document.getElementById("getBackButton");
 const ascendingButton = document.getElementById("ascending");
 const descendingButton = document.getElementById("descending");
 const deleteCardButtons = document.getElementsByClassName("deleteButton");
+const tagsButtons = document.getElementsByClassName("tag");
 const inputSearch = document.getElementById('inputSearch');
+const sortingTags = [];
+const sortBy = 'sortBy';
 window.onload = () => {
     fetch(dataUrl)
         .then((resp) => resp.json())
@@ -18,6 +21,18 @@ window.onload = () => {
             showCards(filteredCards);
             numberOfCards+=10;
             showTags();
+            let sortingFromLocal = localStorage.getItem(sorting);
+            if(sortingFromLocal===null){
+                sortDescending(filteredCards);
+            }
+            else{
+                if(sortingFromLocal === "ascending"){
+                    sortAscending(filteredCards);
+                }
+                else {
+                    sortDescending(filteredCards);
+                }
+            }
         })
         .catch(err =>{
             console.log(err);
@@ -63,7 +78,7 @@ function showTags() {
         }
     }
     for(let t of tags){
-        let tag = "<div class='tag'>"+t+"</div>";
+        let tag = "<div class='tag filterButton' onclick='sortByTags(event)'>"+t+"</div>";
         tagsHtml.innerHTML += tag;
     }
 }
@@ -101,6 +116,10 @@ for (let i = 0; i < deleteCardButtons.length; i++) {
     deleteCardButtons[i].addEventListener('click', deleteCard);
 }
 
+for (let i = 0; i < tagsButtons.length; i++) {
+    tagsButtons[i].addEventListener('click', sortByTags);
+}
+
 function deleteCard() {
     cardsHtml.innerHTML = "";
     let card = event.target.parentNode.parentNode;
@@ -120,26 +139,50 @@ function deleteCard() {
 inputSearch.addEventListener("input", search);
 
 function sortAscending(filteredCards) {
-    //localStorage.setItem(sorting, 'ascending');
     cardsHtml.innerHTML = "";
     filteredCards = filteredCards.sort((card1, card2) => {
         const date1 = new Date(card1.createdAt), date2 = new Date(card2.createdAt);
         return date2 < date1 ? 1 : -1;
     });
     showCards(filteredCards);
+    localStorage.setItem(sortBy, 'ascending');
 }
 
 function sortDescending(filteredCards) {
-    //localStorage.setItem(sorting, 'ascending');
     cardsHtml.innerHTML = "";
+    console.log(filteredCards.length);
     filteredCards = filteredCards.sort((card1, card2) => {
         const date1 = new Date(card1.createdAt),
             date2 = new Date(card2.createdAt);
-        console.log(date2 < date1);
         return date2 < date1 ? -1 : 1;
     });
     showCards(filteredCards);
+    localStorage.setItem(sortBy, 'descending');
 }
 
 ascendingButton.addEventListener('click', () => sortAscending(filteredCards));
 descendingButton.addEventListener('click', () => sortDescending(filteredCards));
+
+function sortByTags() {
+    let tagHtml = event.target;
+    tagHtml.classList.contains('active')? tagHtml.classList.remove('active'):tagHtml.classList.add('active');
+   // let tag = {"tag":tagHtml.innerHTML};
+    sortingTags.push(tagHtml.innerHTML);
+    cardsHtml.innerHTML = "";
+    let sortedByTags = filteredCards.slice();
+
+    for (i = 0; i < filteredCards.length; i++) {
+        tags = filteredCards[i].tags;
+        console.log(tags);
+        console.log(sortingTags);
+        console.log(tags.indexOf(sortingTags))
+        if (tags.indexOf(sortingTags) > -1) {
+
+        } else {
+            sortedByTags.splice(sortedByTags.indexOf(filteredCards[i]),1);
+        }
+
+    }
+    filteredCards = sortedByTags;
+    showCards(filteredCards);
+}

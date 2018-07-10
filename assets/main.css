@@ -70,9 +70,7 @@ img{
     padding: 3px 2px;
 }
 
-.container .tags{
-    display: flex;
-}
+
 
 .deleteButton{
     position: absolute;
@@ -140,7 +138,6 @@ div.search::after {
     color: #5c5c5c;
     padding: 9px 16px;
     text-decoration: none;
-    display: inline-block;
     font-size: 16px;
     font-family: sans-serif;
     letter-spacing: 0.1px;
@@ -148,6 +145,11 @@ div.search::after {
 .filterButton:hover{
     background-color: #5c5c5c;
     color: #ffffff;
+}
+
+.active{
+    background-color: #515151;
+    color: white;
 }
 
 .getBackButton{
